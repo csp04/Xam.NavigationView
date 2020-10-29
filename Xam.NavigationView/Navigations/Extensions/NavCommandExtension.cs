@@ -8,16 +8,10 @@ namespace Xam.NavigationView.Navigations.Extensions
     public abstract class NavCommandExtension : IMarkupExtension<Command>
     {
         public bool Animated { get; set; } = true;
-        public Command ProvideValue(IServiceProvider serviceProvider)
-        {
-            return CreateNavigationCommand(Animated);
-        }
+        public Command ProvideValue(IServiceProvider serviceProvider) => CreateNavigationCommand(Animated);
 
         protected abstract Command CreateNavigationCommand(bool animated);
 
-        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider)
-        {
-            return (this as IMarkupExtension<Command>).ProvideValue(serviceProvider);
-        }
+        object IMarkupExtension.ProvideValue(IServiceProvider serviceProvider) => (this as IMarkupExtension<Command>).ProvideValue(serviceProvider);
     }
 }

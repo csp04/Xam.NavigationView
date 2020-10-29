@@ -36,10 +36,7 @@ namespace Xam.NavigationView
 
         private readonly IHostViewController host;
 
-        public NavigationForViewImpl(HostView host)
-        {
-            this.host = host;
-        }
+        public NavigationForViewImpl(HostView host) => this.host = host;
 
         public NavigationForViewImpl()
         {
@@ -322,10 +319,7 @@ namespace Xam.NavigationView
             }
         }
 
-        private Task ThreadSafeTask(Action action)
-        {
-            return Device.InvokeOnMainThreadAsync(action);
-        }
+        private Task ThreadSafeTask(Action action) => Device.InvokeOnMainThreadAsync(action);
 
         private async Task RunTransition(ITransition transition, VisualElement element, bool animated)
         {

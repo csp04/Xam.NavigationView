@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace Xam.NavigationView.Transitions
 {
@@ -14,10 +11,7 @@ namespace Xam.NavigationView.Transitions
             Easing = EasingMode.CubicOut;
         }
 
-        protected override void Apply(double value, VisualElement view)
-        {
-            view.TranslationX = value;
-        }
+        protected override void Apply(double value, VisualElement view) => view.TranslationX = value;
     }
 
     public class SlideToLeftExit : SlideTransition
@@ -28,9 +22,6 @@ namespace Xam.NavigationView.Transitions
             Easing = EasingMode.CubicIn;
         }
 
-        protected override void Apply(double value, VisualElement view)
-        {
-            view.TranslationX = value;
-        }
+        protected override void Apply(double value, VisualElement view) => view.TranslationX = value;
     }
 }

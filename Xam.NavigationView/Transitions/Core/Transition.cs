@@ -7,10 +7,7 @@ namespace Xam.NavigationView.Transitions
     public abstract class Transition<TView> : ITransition where TView : VisualElement
     {
         private readonly string name;
-        public Transition()
-        {
-            name = Guid.NewGuid().ToString();
-        }
+        public Transition() => name = Guid.NewGuid().ToString();
 
         public double Start { get; set; } = 0;
         public double End { get; set; } = 1;
@@ -36,24 +33,21 @@ namespace Xam.NavigationView.Transitions
             return tcs.Task;
         }
 
-        private Easing SwitchEasing(EasingMode easing)
+        private Easing SwitchEasing(EasingMode easing) => easing switch
         {
-            return easing switch
-            {
-                EasingMode.Linear => Xamarin.Forms.Easing.Linear,
-                EasingMode.SinOut => Xamarin.Forms.Easing.SinOut,
-                EasingMode.SinIn => Xamarin.Forms.Easing.SinIn,
-                EasingMode.SinInOut => Xamarin.Forms.Easing.SinInOut,
-                EasingMode.CubicIn => Xamarin.Forms.Easing.CubicIn,
-                EasingMode.CubicOut => Xamarin.Forms.Easing.CubicOut,
-                EasingMode.CubicInOut => Xamarin.Forms.Easing.CubicInOut,
-                EasingMode.BounceOut => Xamarin.Forms.Easing.BounceOut,
-                EasingMode.BounceIn => Xamarin.Forms.Easing.BounceIn,
-                EasingMode.SpringIn => Xamarin.Forms.Easing.SpringIn,
-                EasingMode.SpringOut => Xamarin.Forms.Easing.SpringOut,
-                _ => Xamarin.Forms.Easing.Linear
-            };
-        }
+            EasingMode.Linear => Xamarin.Forms.Easing.Linear,
+            EasingMode.SinOut => Xamarin.Forms.Easing.SinOut,
+            EasingMode.SinIn => Xamarin.Forms.Easing.SinIn,
+            EasingMode.SinInOut => Xamarin.Forms.Easing.SinInOut,
+            EasingMode.CubicIn => Xamarin.Forms.Easing.CubicIn,
+            EasingMode.CubicOut => Xamarin.Forms.Easing.CubicOut,
+            EasingMode.CubicInOut => Xamarin.Forms.Easing.CubicInOut,
+            EasingMode.BounceOut => Xamarin.Forms.Easing.BounceOut,
+            EasingMode.BounceIn => Xamarin.Forms.Easing.BounceIn,
+            EasingMode.SpringIn => Xamarin.Forms.Easing.SpringIn,
+            EasingMode.SpringOut => Xamarin.Forms.Easing.SpringOut,
+            _ => Xamarin.Forms.Easing.Linear
+        };
     }
 
     public abstract class Transition : Transition<VisualElement>

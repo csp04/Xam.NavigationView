@@ -4,19 +4,10 @@ namespace Xam.NavigationView.Transitions
 {
     public abstract class SlideTransition : Transition
     {
-        private static Page GetHost()
-        {
-            return Application.Current.MainPage;
-        }
+        private static Page GetHost() => Application.Current.MainPage;
 
-        protected double GetHostWidth()
-        {
-            return GetHost().Width;
-        }
+        protected double GetHostWidth() => GetHost().Width;
 
-        protected double GetHostHeight()
-        {
-            return GetHost().Height;
-        }
+        protected double GetHostHeight() => GetHost().Height;
     }
 }

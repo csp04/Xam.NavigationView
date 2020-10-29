@@ -6,20 +6,11 @@ namespace Xam.NavigationView.Navigations.Extensions
 {
     internal class NavHelper
     {
-        public static INavigationForView GetNavigation()
-        {
-            return ((HostView)Application.Current.MainPage).Navigation;
-        }
+        public static INavigationForView GetNavigation() => ((HostView)Application.Current.MainPage).Navigation;
 
-        public static Task PushAsync(Type viewType, object viewParameter, bool animated)
-        {
-            return GetNavigation().PushAsync(CreateView(viewType, viewParameter), animated);
-        }
+        public static Task PushAsync(Type viewType, object viewParameter, bool animated) => GetNavigation().PushAsync(CreateView(viewType, viewParameter), animated);
 
-        public static Task PushModalAsync(Type viewType, object viewParameter, bool animated)
-        {
-            return GetNavigation().PushModalAsync(CreateView(viewType, viewParameter), animated);
-        }
+        public static Task PushModalAsync(Type viewType, object viewParameter, bool animated) => GetNavigation().PushModalAsync(CreateView(viewType, viewParameter), animated);
 
         private static ContentView CreateView(Type viewType, object viewParameter)
         {

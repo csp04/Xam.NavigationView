@@ -8,70 +8,31 @@ namespace Xam.NavigationView
         public new INavigationForView Navigation { get; } = new NavigationForViewImpl();
 
 
-        public DefaultView()
-        {
-            BackgroundColor = Color.White;
-        }
+        public DefaultView() => BackgroundColor = Color.White;
 
-        protected virtual Task<bool> OnPushing()
-        {
-            return Task.FromResult(true);
-        }
+        protected virtual Task<bool> OnPushing() => Task.FromResult(true);
 
-        protected virtual Task<bool> OnPopping()
-        {
-            return Task.FromResult(true);
-        }
+        protected virtual Task<bool> OnPopping() => Task.FromResult(true);
 
-        protected virtual Task OnPushed()
-        {
-            return Task.CompletedTask;
-        }
+        protected virtual Task OnPushed() => Task.CompletedTask;
 
-        protected virtual Task OnPopped()
-        {
-            return Task.CompletedTask;
-        }
+        protected virtual Task OnPopped() => Task.CompletedTask;
 
-        protected virtual Task OnAppearing()
-        {
-            return Task.CompletedTask;
-        }
+        protected virtual Task OnAppearing() => Task.CompletedTask;
 
-        protected virtual Task OnDisappearing()
-        {
-            return Task.CompletedTask;
-        }
+        protected virtual Task OnDisappearing() => Task.CompletedTask;
 
-        Task<bool> IDefaultViewController.SendPushing()
-        {
-            return OnPushing();
-        }
+        Task<bool> IDefaultViewController.SendPushing() => OnPushing();
 
-        Task IDefaultViewController.SendPushed()
-        {
-            return OnPushed();
-        }
+        Task IDefaultViewController.SendPushed() => OnPushed();
 
-        Task<bool> IDefaultViewController.SendPopping()
-        {
-            return OnPopping();
-        }
+        Task<bool> IDefaultViewController.SendPopping() => OnPopping();
 
-        Task IDefaultViewController.SendPopped()
-        {
-            return OnPopped();
-        }
+        Task IDefaultViewController.SendPopped() => OnPopped();
 
-        Task IDefaultViewController.SendAppearing()
-        {
-            return OnAppearing();
-        }
+        Task IDefaultViewController.SendAppearing() => OnAppearing();
 
-        Task IDefaultViewController.SendDisappearing()
-        {
-            return OnDisappearing();
-        }
+        Task IDefaultViewController.SendDisappearing() => OnDisappearing();
     }
 
 

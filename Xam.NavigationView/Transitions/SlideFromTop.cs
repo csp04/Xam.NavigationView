@@ -11,10 +11,7 @@ namespace Xam.NavigationView.Transitions
             Easing = EasingMode.CubicOut;
         }
 
-        protected override void Apply(double value, VisualElement view)
-        {
-            view.TranslationY = value;
-        }
+        protected override void Apply(double value, VisualElement view) => view.TranslationY = value;
     }
 
     public class SlideToTopExit : SlideTransition
@@ -25,9 +22,6 @@ namespace Xam.NavigationView.Transitions
             Easing = EasingMode.CubicIn;
         }
 
-        protected override void Apply(double value, VisualElement view)
-        {
-            view.TranslationY = value;
-        }
+        protected override void Apply(double value, VisualElement view) => view.TranslationY = value;
     }
 }
