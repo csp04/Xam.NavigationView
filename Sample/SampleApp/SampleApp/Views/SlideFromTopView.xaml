@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<navView:DefaultView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:navView="clr-namespace:Xam.NavigationView;assembly=Xam.NavigationView"
+             xmlns:trans="clr-namespace:Xam.NavigationView.Transitions;assembly=Xam.NavigationView"
+             x:Class="SampleApp.Views.SlideFromTopView"
+                     BackgroundColor="Green"
+                     >
+
+    <trans:Interaction.Enter>
+        <trans:SlideFromTopEnter />
+    </trans:Interaction.Enter>
+    <trans:Interaction.Exit>
+        <trans:SlideToTopExit />
+    </trans:Interaction.Exit>
+
+    <ContentView.Content>
+      <StackLayout>
+          <Label Text="Hello Xamarin.Forms!" />
+      </StackLayout>
+  </ContentView.Content>
+</navView:DefaultView>
