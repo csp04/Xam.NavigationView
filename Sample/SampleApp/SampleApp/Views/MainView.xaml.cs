@@ -19,9 +19,9 @@ namespace SampleApp.Views
                         Debug.WriteLine(t.Exception);
                     }
                 });
-            //Navigation.PushAsync(new SlideFromTopView());
-            //Navigation.PushAsync(new SlideFromLeftView());
-            //Navigation.PushAsync(new SlideFromRightView());
+            Navigation.PushAsync(new SlideFromTopView());
+            Navigation.PushAsync(new SlideFromLeftView());
+            Navigation.PushAsync(new SlideFromRightView());
         }
     }
 }

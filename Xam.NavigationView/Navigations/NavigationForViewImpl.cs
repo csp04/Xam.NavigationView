@@ -40,63 +40,37 @@ namespace Xam.NavigationView
 
         public NavigationForViewImpl()
         {
-
         }
 
         private bool CanPop(out ContentView view)
         {
             view = default;
-
-            lock (navigationStack)
-            {
-                return navigationStack.Count > 1 && navigationStack.TryPop(out view);
-            }
+            return navigationStack.Count > 1 && navigationStack.TryPop(out view);
         }
 
         private bool CanPopModal(out ContentView view)
         {
-            view = default;
-
-            lock (navigationModalStack)
-            {
-                return navigationModalStack.TryPop(out view);
-            }
+            return navigationModalStack.TryPop(out view);
         }
 
         private bool CanPeek(out ContentView view)
         {
-            view = default;
-
-            lock (navigationStack)
-            {
-                return navigationStack.TryPeek(out view);
-            }
+            return navigationStack.TryPeek(out view);
         }
 
         private bool CanPeekModal(out ContentView view)
         {
-            view = default;
-
-            lock (navigationModalStack)
-            {
-                return navigationModalStack.TryPeek(out view);
-            }
+            return navigationModalStack.TryPeek(out view);
         }
 
         private void AddToStack(ContentView view)
         {
-            lock (navigationStack)
-            {
-                navigationStack.Push(view);
-            }
+            navigationStack.Push(view);
         }
 
         private void AddToModalStack(ContentView view)
         {
-            lock (navigationModalStack)
-            {
-                navigationModalStack.Push(view);
-            }
+            navigationModalStack.Push(view);
         }
 
 
