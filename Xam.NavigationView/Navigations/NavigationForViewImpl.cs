@@ -34,9 +34,9 @@ namespace Xam.NavigationView
             }
         }
 
-        private readonly IHostViewController host;
+        private static IHostViewController Host;
 
-        public NavigationForViewImpl(HostView host) => this.host = host;
+        public NavigationForViewImpl(HostView host) => Host = host;
 
         public NavigationForViewImpl()
         {
@@ -117,7 +117,7 @@ namespace Xam.NavigationView
 
             if (CanPop(out var view))
             {
-                host.SendPopping(view);
+                Host.SendPopping(view);
                 _ = controller?.SendDisappearing();
 
                 var tasks = new List<Task>();
@@ -140,14 +140,14 @@ namespace Xam.NavigationView
                 tasks.Add(RunTransition(exitTransition, view, animated));
 
                 await Task.WhenAll(tasks)
-                          .ContinueWith(_ => ThreadSafeTask(() => host.Remove(view)));
+                          .ContinueWith(_ => ThreadSafeTask(() => Host.Remove(view)));
 
                 if (controller != null)
                 {
                     await controller.SendPopped();
                 }
 
-                host.SendPopped(view);
+                Host.SendPopped(view);
             }
         }
 
@@ -160,7 +160,7 @@ namespace Xam.NavigationView
                 return;
             }
 
-            host.SendPushing(view);
+            Host.SendPushing(view);
             _ = controller?.SendAppearing();
 
             var tasks = new List<Task>();
@@ -178,7 +178,7 @@ namespace Xam.NavigationView
                 }
             }
 
-            await ThreadSafeTask(() => host.Add(view));
+            await ThreadSafeTask(() => Host.Add(view));
             AddToStack(view);
 
             //then animate the pushed view.
@@ -192,7 +192,7 @@ namespace Xam.NavigationView
                 await controller.SendPushed();
             }
 
-            host.SendPushed(view);
+            Host.SendPushed(view);
         }
 
         public async Task PushModalAsync(ContentView view, bool animated)
@@ -204,9 +204,9 @@ namespace Xam.NavigationView
                 return;
             }
 
-            await ThreadSafeTask(() => host.ModalContainer.IsVisible = true);
+            await ThreadSafeTask(() => Host.ModalContainer.IsVisible = true);
 
-            host.SendPushingModal(view);
+            Host.SendPushingModal(view);
             _ = controller?.SendAppearing();
 
             if (CanPeekModal(out var currentModalView) && currentModalView is IDefaultViewController modalController)
@@ -221,18 +221,18 @@ namespace Xam.NavigationView
             var tasks = new List<Task>();
 
             //container
-            var container = host.Container;
+            var container = Host.Container;
             var hideTransition = ContainerInteraction.GetHide(view);
 
             tasks.Add(RunTransition(hideTransition, container, animated));
 
             //modal container
-            var modalContainer = host.ModalContainer;
+            var modalContainer = Host.ModalContainer;
             var revealTransition = ModalContainerInteraction.GetReveal(modalContainer);
 
             tasks.Add(RunTransition(revealTransition, modalContainer, animated));
 
-            await ThreadSafeTask(() => host.AddModal(view));
+            await ThreadSafeTask(() => Host.AddModal(view));
             AddToModalStack(view);
 
             var enterTransition = ModalInteraction.GetEnter(view);
@@ -245,7 +245,7 @@ namespace Xam.NavigationView
             {
                 await controller.SendPushed();
             }
-            host.SendPushedModal(view);
+            Host.SendPushedModal(view);
         }
 
         public async Task PopModalAsync(bool animated)
@@ -264,7 +264,7 @@ namespace Xam.NavigationView
 
             if (CanPopModal(out var viewModal))
             {
-                host.SendPoppingModal(viewModal);
+                Host.SendPoppingModal(viewModal);
                 _ = controller?.SendDisappearing();
 
                 var tasks = new List<Task>();
@@ -284,13 +284,13 @@ namespace Xam.NavigationView
                     }
 
                     //modal container
-                    var modalContainer = host.ModalContainer;
+                    var modalContainer = Host.ModalContainer;
                     var hideTransition = ModalContainerInteraction.GetHide(modalContainer);
 
                     tasks.Add(RunTransition(hideTransition, modalContainer, animated));
 
                     //container
-                    var container = host.Container;
+                    var container = Host.Container;
                     var revealTransition = ContainerInteraction.GetReveal(viewModal);
 
                     tasks.Add(RunTransition(revealTransition, container, animated));
@@ -303,11 +303,11 @@ namespace Xam.NavigationView
                 await Task.WhenAll(tasks)
                     .ContinueWith(_ => ThreadSafeTask(() =>
                     {
-                        host.RemoveModal(viewModal);
+                        Host.RemoveModal(viewModal);
 
                         if (navigationModalStack.Count == 0)
                         {
-                            host.ModalContainer.IsVisible = false;
+                            Host.ModalContainer.IsVisible = false;
                         }
                     }));
 
@@ -315,7 +315,7 @@ namespace Xam.NavigationView
                 {
                     await controller.SendPopped();
                 }
-                host.SendPoppedModal(viewModal);
+                Host.SendPoppedModal(viewModal);
             }
         }
 
