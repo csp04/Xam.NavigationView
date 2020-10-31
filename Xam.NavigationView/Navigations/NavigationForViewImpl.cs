@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xam.NavigationView.Transitions;
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
 namespace Xam.NavigationView
 {
@@ -18,8 +17,10 @@ namespace Xam.NavigationView
         {
             get
             {
-                lock(navigationStack)
-                return navigationStack.ToList();
+                lock (navigationStack)
+                {
+                    return navigationStack.ToList();
+                }
             }
         }
 
@@ -27,8 +28,10 @@ namespace Xam.NavigationView
         {
             get
             {
-                lock(navigationModalStack)
-                return navigationModalStack.ToList();
+                lock (navigationModalStack)
+                {
+                    return navigationModalStack.ToList();
+                }
             }
         }
 
@@ -42,7 +45,7 @@ namespace Xam.NavigationView
 
         private bool CanPop(out ContentView view)
         {
-            lock(navigationModalStack)
+            lock (navigationModalStack)
             {
                 view = default;
 
@@ -60,7 +63,7 @@ namespace Xam.NavigationView
 
         private bool CanPopModal(out ContentView view)
         {
-            lock(navigationModalStack)
+            lock (navigationModalStack)
             {
                 view = default;
 
@@ -78,7 +81,7 @@ namespace Xam.NavigationView
 
         private bool CanPeek(out ContentView view)
         {
-            lock(navigationStack)
+            lock (navigationStack)
             {
                 view = default;
 
@@ -94,7 +97,7 @@ namespace Xam.NavigationView
 
         private bool CanPeekModal(out ContentView view)
         {
-            lock(navigationModalStack)
+            lock (navigationModalStack)
             {
                 view = default;
 
@@ -110,26 +113,32 @@ namespace Xam.NavigationView
 
         private void AddToStack(ContentView view)
         {
-            lock(navigationStack)
-            navigationStack.Add(view);
+            lock (navigationStack)
+            {
+                navigationStack.Add(view);
+            }
         }
 
         private void AddToModalStack(ContentView view)
         {
-            lock(navigationModalStack)
-            navigationModalStack.Add(view);
+            lock (navigationModalStack)
+            {
+                navigationModalStack.Add(view);
+            }
         }
 
         private ContentView GetPreviousViewFrom(ContentView view)
         {
-            lock(navigationStack)
+            lock (navigationStack)
             {
                 var navList = navigationStack;
 
                 var index = navList.IndexOf(view);
 
                 if (index <= 0)
+                {
                     return null;
+                }
 
                 return navList[index - 1];
             }
@@ -137,14 +146,16 @@ namespace Xam.NavigationView
 
         private ContentView GetPreviousViewFromModal(ContentView view)
         {
-            lock(navigationModalStack)
+            lock (navigationModalStack)
             {
                 var navList = navigationModalStack;
 
                 var index = navList.IndexOf(view);
 
                 if (index <= 0)
+                {
                     return null;
+                }
 
                 return navList[index - 1];
             }
@@ -242,7 +253,7 @@ namespace Xam.NavigationView
                                     {
                                         var prevView = GetPreviousViewFrom(view);
 
-                                        if(prevView != null)
+                                        if (prevView != null)
                                         {
                                             await ThreadSafeTask(() => Host.Remove(prevView));
                                         }
@@ -305,13 +316,11 @@ namespace Xam.NavigationView
             await Task.WhenAll(tasks)
                 .ContinueWith(_ =>
                 {
-                    
-                    var prevView = GetPreviousViewFromModal(view);
-                        
-                    if(prevView != null)
-                    {
-                        Debug.WriteLine($"{prevView.GetType()}");
 
+                    var prevView = GetPreviousViewFromModal(view);
+
+                    if (prevView != null)
+                    {
                         ThreadSafeTask(() => Host.RemoveModal(prevView));
                     }
 

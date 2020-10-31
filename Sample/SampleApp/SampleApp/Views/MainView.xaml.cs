@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using Xam.NavigationView;
+﻿using Xam.NavigationView;
 using Xamarin.Forms.Xaml;
 
 namespace SampleApp.Views
