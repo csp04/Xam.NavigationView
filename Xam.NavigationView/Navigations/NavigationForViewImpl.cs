@@ -315,20 +315,20 @@ namespace Xam.NavigationView
             tasks.Add(RunTransition(enterTransition, view, animated));
 
             await Task.WhenAll(tasks)
-                .ContinueWith(_ =>
+                .ContinueWith(async _ =>
                 {
 
                     var prevView = GetPreviousViewFromModal(view);
 
                     if (prevView != null)
                     {
-                        ThreadSafeTask(() => Host.RemoveModal(prevView));
+                        await ThreadSafeTask(() => Host.RemoveModal(prevView));
                     }
 
 
                     if (currentView != null)
                     {
-                        ThreadSafeTask(() => currentView.IsVisible = false);
+                        await ThreadSafeTask(() => currentView.IsVisible = false);
                     }
                 });
 
