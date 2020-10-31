@@ -257,7 +257,7 @@ namespace Xam.NavigationView
                     if (prevView != null)
                     {
                         //await ThreadSafeTask(() => Host.Remove(prevView));
-                        await ThreadSafeTask(() => prevView.IsVisible = true);
+                        await ThreadSafeTask(() => prevView.IsVisible = false);
                     }
                 });
 
@@ -324,7 +324,7 @@ namespace Xam.NavigationView
                     if (prevView != null)
                     {
                         //ThreadSafeTask(() => Host.RemoveModal(prevView));
-                        await ThreadSafeTask(() => prevView.IsVisible = true);
+                        await ThreadSafeTask(() => prevView.IsVisible = false);
                     }
 
 
