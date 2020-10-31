@@ -186,7 +186,7 @@ namespace Xam.NavigationView
                 //get the reveal animation for currentView
                 if (CanPeek(out var currentView))
                 {
-                    await ThreadSafeTask(() => Host.InsertBefore(currentView, view));
+                    currentView.IsVisible = true;
 
                     //await ThreadSafeTask(() => Host.InsertBefore(currentView, view));
 
@@ -251,15 +251,15 @@ namespace Xam.NavigationView
 
             await Task.WhenAll(tasks)
                 .ContinueWith(async _ =>
-                                    {
-                                        var prevView = GetPreviousViewFrom(view);
+                {
+                    var prevView = GetPreviousViewFrom(view);
 
-                                        if (prevView != null)
-                                        {
-                                            //await ThreadSafeTask(() => Host.Remove(prevView));
-                                            await ThreadSafeTask(() => prevView.IsVisible = true);
-                                        }
-                                    });
+                    if (prevView != null)
+                    {
+                        //await ThreadSafeTask(() => Host.Remove(prevView));
+                        await ThreadSafeTask(() => prevView.IsVisible = true);
+                    }
+                });
 
             if (controller != null)
             {
@@ -323,7 +323,8 @@ namespace Xam.NavigationView
 
                     if (prevView != null)
                     {
-                        ThreadSafeTask(() => Host.RemoveModal(prevView));
+                        //ThreadSafeTask(() => Host.RemoveModal(prevView));
+                        await ThreadSafeTask(() => prevView.IsVisible = true);
                     }
 
 
