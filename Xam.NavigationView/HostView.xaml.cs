@@ -1,11 +1,5 @@
 ﻿
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.NetworkInformation;
-using System.Threading;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,8 +12,6 @@ namespace Xam.NavigationView
         VisualElement IHostViewController.Container => container;
         VisualElement IHostViewController.ModalContainer => modalContainer;
 
-        private TaskQueue tq = new TaskQueue();
-
         public HostView(ContentView view)
         {
             InitializeComponent();
@@ -29,34 +21,16 @@ namespace Xam.NavigationView
             Navigation.PushAsync(view);
         }
 
-        void IHostViewController.Add(ContentView view)
-        {
-            tq.Enqueue(() => container.Children.Add(view));
-        }
+        void IHostViewController.Add(ContentView view) => container.Children.Add(view);
 
-        void IHostViewController.AddModal(ContentView view)
-        {
-            tq.Enqueue(() => modalContainer.Add(view));
-        }
+        void IHostViewController.AddModal(ContentView view) => modalContainer.Add(view);
 
-        void IHostViewController.Remove(ContentView view)
-        {
+        void IHostViewController.Remove(ContentView view) => container.Children.Remove(view);
 
-            tq.Enqueue(() => container.Children.Remove(view));
-
-        }
-
-        void IHostViewController.RemoveModal(ContentView view)
-        {
-
-
-            tq.Enqueue(() => modalContainer.Remove(view));
-
-        }
+        void IHostViewController.RemoveModal(ContentView view) => modalContainer.Remove(view);
 
         void IHostViewController.InsertBefore(ContentView viewToInsert, ContentView beforeThisView)
         {
-
             var index = container.Children.IndexOf(beforeThisView);
 
             if (index < 0)
@@ -64,13 +38,11 @@ namespace Xam.NavigationView
                 return;
             }
 
-            tq.Enqueue(() => container.Children.Insert(index, viewToInsert));
-
+            container.Children.Insert(index, viewToInsert);
         }
 
         void IHostViewController.InsertBeforeModal(ContentView viewToInsert, ContentView beforeThisView)
         {
-
             var index = modalContainer.IndexOf(beforeThisView);
 
             if (index < 0)
@@ -78,8 +50,7 @@ namespace Xam.NavigationView
                 return;
             }
 
-            tq.Enqueue(() => modalContainer.Insert(index, viewToInsert));
-
+            modalContainer.Insert(index, viewToInsert);
         }
 
 
@@ -87,12 +58,7 @@ namespace Xam.NavigationView
         {
             if (Navigation.NavigationModalStack.Count > 0)
             {
-                _ = Navigation.PopModalAsync()
-                    .ContinueWith(_ =>
-                    {
-                        if (_.IsFaulted)
-                            Debug.WriteLine(_.Exception);
-                    });
+                _ = Navigation.PopModalAsync();
 
                 return true;
             }
@@ -124,33 +90,5 @@ namespace Xam.NavigationView
 
         void IHostViewController.SendPoppedModal(ContentView view) => PoppedModal?.Invoke(this, view);
 
-        private class TaskQueue
-        {
-            object gate = new object();
-            private Queue<Action> tasks = new Queue<Action>();
-            private bool isBusy = false;
-
-            public void Enqueue(Action task)
-            {
-                lock (gate)
-                {
-                    if(isBusy)
-                    {
-                        tasks.Enqueue(task);
-                    }
-                    else
-                    {
-                        isBusy = true;
-                        task();
-                        isBusy = false;
-
-                        while(tasks.Count > 0)
-                            tasks.Dequeue().Invoke();
-                    }
-                    
-                }
-            }
-
-        }
     }
 }
