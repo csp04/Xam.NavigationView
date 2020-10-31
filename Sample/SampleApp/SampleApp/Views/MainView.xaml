@@ -13,6 +13,7 @@
             <Button Text="Slide From Left" Command="{navx:Push {x:Type views:SlideFromLeftView}}" />
             <Button Text="Slide From Right" Command="{navx:Push {x:Type views:SlideFromRightView}}" />
             <Button Text="Open All" Clicked="Button_Clicked" />
+            <Button Text="Open All As Modal" Clicked="Button_Clicked_1" />
         </StackLayout>
   </ContentView.Content>
 </navView:DefaultView>

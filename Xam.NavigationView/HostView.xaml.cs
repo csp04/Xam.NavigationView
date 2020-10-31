@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Diagnostics;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,9 +26,33 @@ namespace Xam.NavigationView
 
         void IHostViewController.AddModal(ContentView view) => modalContainer.Add(view);
 
-        void IHostViewController.Remove(ContentView view) => container.Children.Remove(view);
+        void IHostViewController.Remove(ContentView view)
+        {
+            container.Children.Remove(view);
+        }
 
         void IHostViewController.RemoveModal(ContentView view) => modalContainer.Remove(view);
+
+        void IHostViewController.InsertBefore(ContentView viewToInsert, ContentView beforeThisView)
+        {
+            var index = container.Children.IndexOf(beforeThisView);
+
+            if (index < 0)
+                return;
+
+            container.Children.Insert(index, viewToInsert);
+        }
+
+        void IHostViewController.InsertBeforeModal(ContentView viewToInsert, ContentView beforeThisView)
+        {
+            var index = modalContainer.IndexOf(beforeThisView);
+            
+            if (index < 0)
+                return;
+
+            modalContainer.Insert(index, viewToInsert);
+        }
+
 
         protected override bool OnBackButtonPressed()
         {
@@ -64,5 +89,6 @@ namespace Xam.NavigationView
         void IHostViewController.SendPushedModal(ContentView view) => PushedModal?.Invoke(this, view);
 
         void IHostViewController.SendPoppedModal(ContentView view) => PoppedModal?.Invoke(this, view);
+        
     }
 }

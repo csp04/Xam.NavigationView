@@ -9,8 +9,11 @@ namespace Xam.NavigationView
         void AddModal(ContentView view);
 
         void Remove(ContentView view);
-
         void RemoveModal(ContentView view);
+
+        void InsertBefore(ContentView viewToInsert, ContentView beforeThisView);
+
+        void InsertBeforeModal(ContentView viewToInsert, ContentView beforeThisView);
 
         void SendPushing(ContentView view);
         void SendPopping(ContentView view);

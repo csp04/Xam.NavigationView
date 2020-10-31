@@ -48,6 +48,16 @@
                 </trans:TransitionCollection>
             </Setter.Value>
         </Setter>
+        <Setter Property="trans:ModalInteraction.Enter">
+            <Setter.Value>
+                <trans:SlideFromBottomEnter />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="trans:ModalInteraction.Exit">
+            <Setter.Value>
+                <trans:SlideToBottomExit />
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

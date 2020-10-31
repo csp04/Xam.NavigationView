@@ -11,17 +11,18 @@ namespace SampleApp.Views
 
         private void Button_Clicked(object sender, System.EventArgs e)
         {
-            Navigation.PushAsync(new SlideFromBottomView())
-                .ContinueWith(t =>
-                {
-                    if(t.IsFaulted)
-                    {
-                        Debug.WriteLine(t.Exception);
-                    }
-                });
-            Navigation.PushAsync(new SlideFromTopView());
-            Navigation.PushAsync(new SlideFromLeftView());
-            Navigation.PushAsync(new SlideFromRightView());
+            Navigation.PushAsync(new SlideFromBottomView(), false);
+            Navigation.PushAsync(new SlideFromTopView(), false);
+            Navigation.PushAsync(new SlideFromLeftView(), false);
+            Navigation.PushAsync(new SlideFromRightView(), false);
+        }
+
+        private void Button_Clicked_1(object sender, System.EventArgs e)
+        {
+            Navigation.PushModalAsync(new SlideFromBottomView());
+            Navigation.PushModalAsync(new SlideFromTopView());
+            Navigation.PushModalAsync(new SlideFromLeftView());
+            Navigation.PushModalAsync(new SlideFromRightView());
         }
     }
 }

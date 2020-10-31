@@ -13,6 +13,10 @@ namespace Xam.NavigationView
 
         public void Remove(View view) => container.Children.Remove(view);
 
+        public void Insert(int index, View view) => container.Children.Insert(index, view);
+
+        public int IndexOf(View view) => container.Children.IndexOf(view);
+
         public new double Opacity
         {
             get => bgContainer.Opacity;

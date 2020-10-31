@@ -1,25 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xam.NavigationView.Transitions;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 
 namespace Xam.NavigationView
 {
     internal class NavigationForViewImpl : INavigationForView
     {
-        private static readonly Stack<ContentView> navigationStack = new Stack<ContentView>();
-        private static readonly Stack<ContentView> navigationModalStack = new Stack<ContentView>();
+        private static readonly List<ContentView> navigationStack = new List<ContentView>();
+        private static readonly List<ContentView> navigationModalStack = new List<ContentView>();
 
         public IReadOnlyList<ContentView> NavigationStack
         {
             get
             {
-                lock (navigationStack)
-                {
-                    return navigationStack.ToList();
-                }
+                lock(navigationStack)
+                return navigationStack.ToList();
             }
         }
 
@@ -27,10 +27,8 @@ namespace Xam.NavigationView
         {
             get
             {
-                lock (navigationModalStack)
-                {
-                    return navigationModalStack.ToList();
-                }
+                lock(navigationModalStack)
+                return navigationModalStack.ToList();
             }
         }
 
@@ -44,35 +42,113 @@ namespace Xam.NavigationView
 
         private bool CanPop(out ContentView view)
         {
-            view = default;
-            return navigationStack.Count > 1 && navigationStack.TryPop(out view);
+            lock(navigationModalStack)
+            {
+                view = default;
+
+                if (navigationStack.Count > 1)
+                {
+                    view = navigationStack[^1];
+                    navigationStack.RemoveAt(navigationStack.Count - 1);
+
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         private bool CanPopModal(out ContentView view)
         {
-            return navigationModalStack.TryPop(out view);
+            lock(navigationModalStack)
+            {
+                view = default;
+
+                if (navigationModalStack.Count > 0)
+                {
+                    view = navigationModalStack[^1];
+                    navigationModalStack.RemoveAt(navigationModalStack.Count - 1);
+
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         private bool CanPeek(out ContentView view)
         {
-            return navigationStack.TryPeek(out view);
+            lock(navigationStack)
+            {
+                view = default;
+
+                if (navigationStack.Count > 0)
+                {
+                    view = navigationStack[^1];
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         private bool CanPeekModal(out ContentView view)
         {
-            return navigationModalStack.TryPeek(out view);
+            lock(navigationModalStack)
+            {
+                view = default;
+
+                if (navigationModalStack.Count > 0)
+                {
+                    view = navigationModalStack[^1];
+                    return true;
+                }
+
+                return false;
+            }
         }
 
         private void AddToStack(ContentView view)
         {
-            navigationStack.Push(view);
+            lock(navigationStack)
+            navigationStack.Add(view);
         }
 
         private void AddToModalStack(ContentView view)
         {
-            navigationModalStack.Push(view);
+            lock(navigationModalStack)
+            navigationModalStack.Add(view);
         }
 
+        private ContentView GetPreviousViewFrom(ContentView view)
+        {
+            lock(navigationStack)
+            {
+                var navList = navigationStack;
+
+                var index = navList.IndexOf(view);
+
+                if (index <= 0)
+                    return null;
+
+                return navList[index - 1];
+            }
+        }
+
+        private ContentView GetPreviousViewFromModal(ContentView view)
+        {
+            lock(navigationModalStack)
+            {
+                var navList = navigationModalStack;
+
+                var index = navList.IndexOf(view);
+
+                if (index <= 0)
+                    return null;
+
+                return navList[index - 1];
+            }
+        }
 
         public async Task PopAsync(bool animated)
         {
@@ -100,6 +176,8 @@ namespace Xam.NavigationView
                 //get the reveal animation for currentView
                 if (CanPeek(out var currentView))
                 {
+                    await ThreadSafeTask(() => Host.InsertBefore(currentView, view));
+
                     var revealTransition = Interaction.GetReveal(currentView);
                     tasks.Add(RunTransition(revealTransition, currentView, animated));
 
@@ -159,7 +237,16 @@ namespace Xam.NavigationView
             var enterTransition = Interaction.GetEnter(view);
             tasks.Add(RunTransition(enterTransition, view, animated));
 
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks)
+                .ContinueWith(async _ =>
+                                    {
+                                        var prevView = GetPreviousViewFrom(view);
+
+                                        if(prevView != null)
+                                        {
+                                            await ThreadSafeTask(() => Host.Remove(prevView));
+                                        }
+                                    });
 
             if (controller != null)
             {
@@ -183,11 +270,13 @@ namespace Xam.NavigationView
             Host.SendPushingModal(view);
             _ = controller?.SendAppearing();
 
+            ContentView currentView = default;
+
             if (CanPeekModal(out var currentModalView) && currentModalView is IDefaultViewController modalController)
             {
                 _ = modalController.SendDisappearing();
             }
-            else if (CanPeek(out var currentView) && currentView is IDefaultViewController currentController)
+            else if (CanPeek(out currentView) && currentView is IDefaultViewController currentController)
             {
                 _ = currentController.SendDisappearing();
             }
@@ -213,7 +302,25 @@ namespace Xam.NavigationView
 
             tasks.Add(RunTransition(enterTransition, view, animated));
 
-            await Task.WhenAll(tasks);
+            await Task.WhenAll(tasks)
+                .ContinueWith(_ =>
+                {
+                    
+                    var prevView = GetPreviousViewFromModal(view);
+                        
+                    if(prevView != null)
+                    {
+                        Debug.WriteLine($"{prevView.GetType()}");
+
+                        ThreadSafeTask(() => Host.RemoveModal(prevView));
+                    }
+
+
+                    if (currentView != null)
+                    {
+                        ThreadSafeTask(() => currentView.IsVisible = false);
+                    }
+                });
 
             if (controller != null)
             {
@@ -245,6 +352,8 @@ namespace Xam.NavigationView
 
                 if (CanPeekModal(out var currentViewModal))
                 {
+                    await ThreadSafeTask(() => Host.InsertBeforeModal(currentViewModal, viewModal));
+
                     if (currentViewModal is IDefaultViewController modalController)
                     {
                         _ = modalController.SendAppearing();
@@ -254,6 +363,7 @@ namespace Xam.NavigationView
                 {
                     if (CanPeek(out var currentView) && currentView is IDefaultViewController viewController)
                     {
+                        currentView.IsVisible = true;
                         _ = viewController.SendAppearing();
                     }
 
