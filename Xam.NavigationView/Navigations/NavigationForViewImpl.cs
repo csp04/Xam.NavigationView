@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Xam.NavigationView.Transitions;
@@ -187,7 +186,9 @@ namespace Xam.NavigationView
                 //get the reveal animation for currentView
                 if (CanPeek(out var currentView))
                 {
-                    await ThreadSafeTask(() => Host.InsertBefore(currentView, view));
+                    currentView.IsVisible = true;
+
+                    //await ThreadSafeTask(() => Host.InsertBefore(currentView, view));
 
                     var revealTransition = Interaction.GetReveal(currentView);
                     tasks.Add(RunTransition(revealTransition, currentView, animated));
@@ -255,7 +256,8 @@ namespace Xam.NavigationView
 
                                         if (prevView != null)
                                         {
-                                            await ThreadSafeTask(() => Host.Remove(prevView));
+                                            //await ThreadSafeTask(() => Host.Remove(prevView));
+                                            await ThreadSafeTask(() => prevView.IsVisible = true);
                                         }
                                     });
 
@@ -314,20 +316,21 @@ namespace Xam.NavigationView
             tasks.Add(RunTransition(enterTransition, view, animated));
 
             await Task.WhenAll(tasks)
-                .ContinueWith(_ =>
+                .ContinueWith(async _ =>
                 {
 
                     var prevView = GetPreviousViewFromModal(view);
 
                     if (prevView != null)
                     {
-                        ThreadSafeTask(() => Host.RemoveModal(prevView));
+                        //ThreadSafeTask(() => Host.RemoveModal(prevView));
+                        await ThreadSafeTask(() => prevView.IsVisible = true);
                     }
 
 
                     if (currentView != null)
                     {
-                        ThreadSafeTask(() => currentView.IsVisible = false);
+                        await ThreadSafeTask(() => currentView.IsVisible = false);
                     }
                 });
 
@@ -361,7 +364,8 @@ namespace Xam.NavigationView
 
                 if (CanPeekModal(out var currentViewModal))
                 {
-                    await ThreadSafeTask(() => Host.InsertBeforeModal(currentViewModal, viewModal));
+                    await ThreadSafeTask(() => currentViewModal.IsVisible = true);
+                    //await ThreadSafeTask(() => Host.InsertBeforeModal(currentViewModal, viewModal));
 
                     if (currentViewModal is IDefaultViewController modalController)
                     {
