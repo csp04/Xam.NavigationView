@@ -186,6 +186,8 @@ namespace Xam.NavigationView
                 //get the reveal animation for currentView
                 if (CanPeek(out var currentView))
                 {
+                    currentView.IsVisible = true;
+
                     await ThreadSafeTask(() => Host.InsertBefore(currentView, view));
 
                     var revealTransition = Interaction.GetReveal(currentView);
