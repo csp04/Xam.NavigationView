@@ -2,7 +2,7 @@
 
 namespace Xam.NavigationView.Transitions
 {
-    public class SlideFromLeftEnter : SlideTransition
+    public class SlideFromLeftEnter : ScreenAwareTransition
     {
         protected override void OnBeforeAnimating()
         {
@@ -14,7 +14,7 @@ namespace Xam.NavigationView.Transitions
         protected override void Apply(double value, VisualElement view) => view.TranslationX = value;
     }
 
-    public class SlideToLeftExit : SlideTransition
+    public class SlideToLeftExit : ScreenAwareTransition
     {
         protected override void OnBeforeAnimating()
         {

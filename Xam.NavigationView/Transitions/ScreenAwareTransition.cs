@@ -2,7 +2,7 @@
 
 namespace Xam.NavigationView.Transitions
 {
-    public abstract class SlideTransition : Transition
+    public abstract class ScreenAwareTransition : Transition
     {
         private static Page GetHost() => Application.Current.MainPage;
 
