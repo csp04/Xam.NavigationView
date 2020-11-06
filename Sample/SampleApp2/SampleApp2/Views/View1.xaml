@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xnavv:XContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xnavv="clr-namespace:X.NavView;assembly=X.NavView"
+                    xmlns:trans="clr-namespace:X.NavView.Transitions;assembly=X.NavView"
+                    xmlns:navx="clr-namespace:Xam.NavigationView.Navigations.Extensions;assembly=X.NavView"
+             x:Class="SampleApp2.Views.View1">
+
+    <trans:Interaction.Enter>
+        <trans:HSlide From="1" To="0" Duration="500" Easing="SinOut" />
+    </trans:Interaction.Enter>
+    <trans:Interaction.Exit>
+        <trans:Transitions>
+            <trans:Opacity To="0" />
+            <trans:HSlide  To="-1" Duration="500" Easing="CubicOut" />
+        </trans:Transitions>
+    </trans:Interaction.Exit>
+    
+  <ContentView.Content>
+      <StackLayout>
+          <Label Text="Hello Xamarin.Forms!" />
+            <Button Text="Pop" Command="{navx:Pop}" />
+        </StackLayout>
+  </ContentView.Content>
+</xnavv:XContentView>

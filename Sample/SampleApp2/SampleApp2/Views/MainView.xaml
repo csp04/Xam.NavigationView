@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xnavv:XContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xnavv="clr-namespace:X.NavView;assembly=X.NavView"
+                    xmlns:trans="clr-namespace:X.NavView.Transitions;assembly=X.NavView"
+                    xmlns:navx="clr-namespace:Xam.NavigationView.Navigations.Extensions;assembly=X.NavView"
+                    xmlns:view="clr-namespace:SampleApp2.Views"
+                    xmlns:sh="http://sharpnado.com"
+             x:Class="SampleApp2.Views.MainView">
+
+    <trans:Interaction.Enter>
+        <trans:Opacity Duration="1000" />
+    </trans:Interaction.Enter>
+
+    <ContentView.Content>
+        <StackLayout>
+            <Label Text="Hello Xamarin.Forms!" />
+            <Button Text="Push" Command="{navx:Push {x:Type view:View1}}" />
+            <Button Text="Push Shadowed" Command="{navx:Push {x:Type view:ShadowedView}}" />
+            
+            <sh:Shadows x:Name="CatShadows"
+            CornerRadius="10">
+                <sh:Shadows.Shades>
+                    <sh:ImmutableShades>
+                        <sh:Shade BlurRadius="10"
+                      Opacity="0.5"
+                      Offset="-1,-1"
+                      Color="#FE99FE" />
+                        <sh:Shade BlurRadius="10"
+                      Opacity="0.5"
+                      Offset="1,1"
+                      Color="#00B0FB" />
+                    </sh:ImmutableShades>
+                </sh:Shadows.Shades>
+                <Frame WidthRequest="80"
+           Padding="10"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"
+           BackgroundColor="White"
+           CornerRadius="10">
+                    
+                </Frame>
+            </sh:Shadows>
+        </StackLayout>
+    </ContentView.Content>
+</xnavv:XContentView>

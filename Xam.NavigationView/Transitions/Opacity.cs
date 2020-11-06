@@ -9,6 +9,6 @@ namespace Xam.NavigationView.Transitions
 
     public class ModalContainerOpacity : Transition<ModalContainer>
     {
-        protected override void Apply(double value, ModalContainer element) => element.Opacity = value;
+        protected override void Apply(double value, ModalContainer element) => element.ShadowOpacity = value;
     }
 }

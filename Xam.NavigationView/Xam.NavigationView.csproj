@@ -5,6 +5,7 @@
     <LangVersion>8.0</LangVersion>
     <Product>Csp Xamarin Custom Control</Product>
     <Authors>csp04</Authors>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xnavv:XContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xnavv="clr-namespace:X.NavView;assembly=X.NavView"
+                    xmlns:vm="clr-namespace:SampleApp2.ViewModels"
+                    xmlns:sh="http://sharpnado.com"
+                    BackgroundColor="White"
+             x:Class="SampleApp2.Views.ShadowedView">
+    <xnavv:XContentView.BindingContext>
+        <vm:ItemsViewModel />
+    </xnavv:XContentView.BindingContext>
+
+  <ContentView.Content>
+      <Grid RowDefinitions="150,*">
+          <Label Text="Hello Xamarin.Forms!" />
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Items}" BackgroundColor="Aqua">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                            <Label Text="{Binding .}" Padding="10"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+  </ContentView.Content>
+</xnavv:XContentView>
