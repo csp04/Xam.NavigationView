@@ -6,8 +6,6 @@ namespace X.NavView.Transitions
 {
     public class Transitions : List<ITransition>, ITransition
     {
-        internal VisualElement View { get; set; }
-
         public bool Sequential { get; set; } = false;
 
         public void Cancel() => this.ForEach(t => t.Cancel());
