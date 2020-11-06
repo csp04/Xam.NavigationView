@@ -34,7 +34,7 @@ namespace X.NavView
 
         protected override bool OnBackButtonPressed()
         {
-            if(Navigator.NavigationStack.Count > 1)
+            if (Navigator.NavigationStack.Count > 1)
             {
                 Navigator.Pop();
 

@@ -1,8 +1,4 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System;
 using System.Threading.Tasks;
 using Xam.Anim;
 using Xamarin.Forms;
@@ -14,7 +10,7 @@ namespace X.NavView.Transitions
     {
         internal TVisualElement View { get; set; }
 
-        private string animationName;
+        private readonly string animationName;
 
         public BindableProperty TargetProperty { get; set; }
 
@@ -26,10 +22,7 @@ namespace X.NavView.Transitions
         public EasingMode Easing { get; set; } = EasingMode.Linear;
 
 
-        public Transition()
-        {
-            animationName = Guid.NewGuid().ToString();
-        }
+        public Transition() => animationName = Guid.NewGuid().ToString();
 
         public Transition(string name, BindableProperty targetProperty)
         {
@@ -39,13 +32,10 @@ namespace X.NavView.Transitions
 
         public Transition(BindableProperty targetProperty) : this(Guid.NewGuid().ToString(), targetProperty) { }
 
-        public void Cancel()
-        {
-            View.AbortAnimation(animationName);
-        }
+        public void Cancel() => View.AbortAnimation(animationName);
         public Task Run()
         {
-            if(View != null)
+            if (View != null)
             {
                 var propertyName = TargetProperty.PropertyName;
 
@@ -63,15 +53,9 @@ namespace X.NavView.Transitions
             return Task.CompletedTask;
         }
 
-        protected virtual double GetPropertyValue(double propertyValue)
-        {
-            return propertyValue;
-        }
+        protected virtual double GetPropertyValue(double propertyValue) => propertyValue;
 
-        protected virtual Task RunAnimation(string animationName, string propertyName, double from, double to, uint duration, Easing easing)
-        {
-            return View.Animate(animationName, propertyName, from, to, duration, easing);
-        }
+        protected virtual Task RunAnimation(string animationName, string propertyName, double from, double to, uint duration, Easing easing) => View.Animate(animationName, propertyName, from, to, duration, easing);
 
         private Easing SwitchEasing(EasingMode easing) => easing switch
         {

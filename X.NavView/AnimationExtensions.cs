@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using X.NavView.Helpers;
@@ -10,7 +9,7 @@ namespace X.NavView
     public static class AnimationExtensions
     {
         public static Task Animate<TVisualElement>(
-            this TVisualElement element, 
+            this TVisualElement element,
             string name,
             Action<double, VisualElement> apply,
             double from, double to, uint duration = 250,
@@ -21,7 +20,7 @@ namespace X.NavView
 
             var animation = new Animation(d => apply(d, element), from, to, easing);
             animation.Commit(element, name, length: duration, finished: (d, f) => tcs.SetResult(!f));
-            
+
             return tcs.Task;
         }
 
@@ -35,7 +34,7 @@ namespace X.NavView
         {
             var propertyInfo = typeof(TVisualElement).GetProperty(propertyName);
 
-            return Animate(element, name, (d,x) => propertyInfo.SetValue(x, d), from, to, duration, easing);
+            return Animate(element, name, (d, x) => propertyInfo.SetValue(x, d), from, to, duration, easing);
         }
 
         public static Task Animate<TVisualElement>(
@@ -44,10 +43,7 @@ namespace X.NavView
             Expression<Func<TVisualElement, double>> propertyExpression,
             double from, double to, uint duration = 250,
             Easing easing = null
-                ) where TVisualElement : VisualElement
-        {
-            return Animate(element, name, propertyExpression.GetPropertyName(), from, to, duration, easing);
-        }
+                ) where TVisualElement : VisualElement => Animate(element, name, propertyExpression.GetPropertyName(), from, to, duration, easing);
 
         public static Task AnimateTo<TVisualElement>(
             this TVisualElement element,
@@ -66,13 +62,10 @@ namespace X.NavView
         public static Task AnimateTo<TVisualElement>(
             this TVisualElement element,
             string name,
-            Expression<Func<TVisualElement, double>> propertyExpression, 
+            Expression<Func<TVisualElement, double>> propertyExpression,
             double to, uint duration = 250,
             Easing easing = null
-                ) where TVisualElement : VisualElement
-        {
-            return AnimateTo(element, name, propertyExpression.GetPropertyName(), to, duration, easing);
-        }
+                ) where TVisualElement : VisualElement => AnimateTo(element, name, propertyExpression.GetPropertyName(), to, duration, easing);
 
         public static Task AnimatePercent<TVisualElement>(
             this TVisualElement element,
@@ -157,5 +150,5 @@ namespace X.NavView
         }
     }
 
-    
+
 }

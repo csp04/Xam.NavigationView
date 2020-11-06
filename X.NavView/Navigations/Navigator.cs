@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using X.NavView.Transitions;
 using Xamarin.Forms;
@@ -29,16 +28,13 @@ namespace X.NavView.Navigations
 
         private static IHostView Host;
 
-        public NavigatorImpl(IHostView host)
-        {
-            Host = host;
-        }
+        public NavigatorImpl(IHostView host) => Host = host;
 
         public NavigatorImpl()
         {
 
         }
-        
+
         public IReadOnlyList<ContentView> NavigationStack => navigationStack;
 
         private bool CanPop(out ContentView view)
@@ -86,34 +82,31 @@ namespace X.NavView.Navigations
 
         public Task Pop(bool animated)
         {
-            if(CanPop(out var view))
+            if (CanPop(out var view))
             {
                 return SwitchView(view, false, animated);
             }
 
             return Task.CompletedTask;
         }
-        public Task Push(ContentView view, bool animated)
-        {
-            return SwitchView(view, true, animated);
-        }
+        public Task Push(ContentView view, bool animated) => SwitchView(view, true, animated);
         private async Task SwitchView(ContentView view, bool isPush, bool animated)
         {
             var tasks = new List<Task>();
 
             var viewController = view as IXViewController;
 
-            if(isPush)
+            if (isPush)
             {
                 Host.SendPushing(view);
 
                 viewController?.SendAppearing();
 
-                if(CanPeek(out var peekView))
+                if (CanPeek(out var peekView))
                 {
                     tasks.Add(HideTransition(peekView, animated));
 
-                    if(peekView is IXViewController pvc)
+                    if (peekView is IXViewController pvc)
                     {
                         pvc.SendDisappearing();
                     }
@@ -133,13 +126,13 @@ namespace X.NavView.Navigations
 
                 viewController?.SendDisappearing();
 
-                if(CanPeek(out var peekView))
+                if (CanPeek(out var peekView))
                 {
                     await ViewVisible(peekView, true);
 
                     tasks.Add(RevealTransition(peekView, animated));
 
-                    if(peekView is IXViewController pvc)
+                    if (peekView is IXViewController pvc)
                     {
                         pvc.SendAppearing();
                     }
@@ -154,7 +147,7 @@ namespace X.NavView.Navigations
             await Task.WhenAll(tasks)
                 .ContinueWith(_ =>
                 {
-                    if(isPush)
+                    if (isPush)
                     {
                         Host.SendPushed(view);
                     }
@@ -186,7 +179,7 @@ namespace X.NavView.Navigations
         {
             if (view != null)
             {
-                if(enterTransitions.TryGetValue(view, out var et))
+                if (enterTransitions.TryGetValue(view, out var et))
                 {
                     et.Cancel();
 
@@ -241,7 +234,7 @@ namespace X.NavView.Navigations
 
         private async Task EnterTransition(ContentView view, bool animated)
         {
-            if(view != null)
+            if (view != null)
             {
                 if (exitTransitions.TryGetValue(view, out var et))
                 {
@@ -260,7 +253,7 @@ namespace X.NavView.Navigations
 
         private async Task ViewVisible(ContentView view, bool visible)
         {
-            if(view != null)
+            if (view != null)
             {
                 await ThreadSafe(() => view.IsVisible = visible);
             }
@@ -294,5 +287,5 @@ namespace X.NavView.Navigations
 
     }
 
-    
+
 }

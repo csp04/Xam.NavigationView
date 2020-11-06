@@ -5,7 +5,7 @@ namespace Xam.NavigationView.Navigations.Extensions
     public class NavResolver : INavResolver
     {
         private static INavResolver _resolver;
-        private static INavResolver _defaultResolver = new NavResolver();
+        private static readonly INavResolver _defaultResolver = new NavResolver();
 
         private NavResolver()
         {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using X.NavView.Transitions;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace X.NavView.Transitions
 {
@@ -13,8 +9,8 @@ namespace X.NavView.Transitions
 
         public static ITransition GetEnter(this BindableObject obj) => (ITransition)obj.GetValue(EnterProperty);
 
-        public static readonly BindableProperty EnterProperty = 
-            BindableProperty.Create("Enter", typeof(ITransition), 
+        public static readonly BindableProperty EnterProperty =
+            BindableProperty.Create("Enter", typeof(ITransition),
                 typeof(Interaction), default(ITransition), propertyChanged: OnTransitionSet);
 
         #endregion Enter Dependency Property
@@ -24,8 +20,8 @@ namespace X.NavView.Transitions
 
         public static ITransition GetExit(this BindableObject obj) => (ITransition)obj.GetValue(ExitProperty);
 
-        public static readonly BindableProperty ExitProperty = 
-            BindableProperty.Create("Exit", typeof(ITransition), 
+        public static readonly BindableProperty ExitProperty =
+            BindableProperty.Create("Exit", typeof(ITransition),
                 typeof(Interaction), default(ITransition), propertyChanged: OnTransitionSet);
         #endregion
 
@@ -34,8 +30,8 @@ namespace X.NavView.Transitions
 
         public static ITransition GetHide(this BindableObject obj) => (ITransition)obj.GetValue(HideProperty);
 
-        public static readonly BindableProperty HideProperty = 
-            BindableProperty.Create("Hide", typeof(ITransition), 
+        public static readonly BindableProperty HideProperty =
+            BindableProperty.Create("Hide", typeof(ITransition),
                 typeof(Interaction), default(ITransition), propertyChanged: OnTransitionSet);
         #endregion
 
@@ -44,8 +40,8 @@ namespace X.NavView.Transitions
 
         public static ITransition GetReveal(this BindableObject obj) => (ITransition)obj.GetValue(RevealProperty);
 
-        public static readonly BindableProperty RevealProperty = 
-            BindableProperty.Create("Reveal", typeof(ITransition), 
+        public static readonly BindableProperty RevealProperty =
+            BindableProperty.Create("Reveal", typeof(ITransition),
                 typeof(Interaction), default(ITransition), propertyChanged: OnTransitionSet);
         #endregion
 
@@ -56,7 +52,7 @@ namespace X.NavView.Transitions
             {
                 ot.View = null;
             }
-            else if(oldValue is Transitions ots)
+            else if (oldValue is Transitions ots)
             {
                 ots.UnsetView();
             }
@@ -65,7 +61,7 @@ namespace X.NavView.Transitions
             {
                 nt.View = (VisualElement)bindable;
             }
-            else if(newValue is Transitions nts)
+            else if (newValue is Transitions nts)
             {
                 nts.SetView((VisualElement)bindable);
             }

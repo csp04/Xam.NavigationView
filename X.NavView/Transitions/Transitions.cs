@@ -8,12 +8,12 @@ namespace X.NavView.Transitions
     {
         public bool Sequential { get; set; } = false;
 
-        public void Cancel() => this.ForEach(t => t.Cancel());
+        public void Cancel() => ForEach(t => t.Cancel());
         public async Task Run()
         {
-            if(Sequential)
+            if (Sequential)
             {
-                foreach(var t in this)
+                foreach (var t in this)
                 {
                     await t.Run();
                 }
@@ -22,7 +22,7 @@ namespace X.NavView.Transitions
             {
                 var tasks = new List<Task>();
 
-                foreach(var t in this)
+                foreach (var t in this)
                 {
                     tasks.Add(t.Run());
                 }
@@ -33,13 +33,13 @@ namespace X.NavView.Transitions
 
         internal void SetView(VisualElement element)
         {
-            foreach(var item in this)
+            foreach (var item in this)
             {
-                if(item is Transition t)
+                if (item is Transition t)
                 {
                     t.View = element;
                 }
-                else if(item is Transitions ts)
+                else if (item is Transitions ts)
                 {
                     ts.SetView(element);
                 }

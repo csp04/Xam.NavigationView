@@ -2,20 +2,19 @@
 using System;
 using X.NavView;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace SampleApp2
 {
     public partial class App : Application
     {
 
-        private static Lazy<HostView> HostView = new Lazy<HostView>(() => new HostView(new MainView()));
-       
+        private static readonly Lazy<HostView> HostView = new Lazy<HostView>(() => new HostView(new MainView()));
+
         public App()
         {
             InitializeComponent();
 
-            if(MainPage == null)
+            if (MainPage == null)
             {
                 MainPage = HostView.Value;
 

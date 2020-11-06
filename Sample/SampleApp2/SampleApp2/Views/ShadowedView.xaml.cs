@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using X.NavView;
-using Xamarin.Forms;
+﻿using X.NavView;
 using Xamarin.Forms.Xaml;
 
 namespace SampleApp2.Views
@@ -12,9 +6,6 @@ namespace SampleApp2.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ShadowedView : XContentView
     {
-        public ShadowedView()
-        {
-            InitializeComponent();
-        }
+        public ShadowedView() => InitializeComponent();
     }
 }

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Text;
+﻿using System.Linq.Expressions;
 
 namespace X.NavView.Helpers
 {
@@ -17,15 +14,9 @@ namespace X.NavView.Helpers
             return expression.Body as MemberExpression;
         }
 
-        public static string GetPropertyName(this MemberExpression expression)
-        {
-            return expression.Member.Name;
-        }
+        public static string GetPropertyName(this MemberExpression expression) => expression.Member.Name;
 
-        public static string GetPropertyName(this LambdaExpression expression)
-        {
-            return expression.GetMemberExp().GetPropertyName();
-        }
+        public static string GetPropertyName(this LambdaExpression expression) => expression.GetMemberExp().GetPropertyName();
 
     }
 }

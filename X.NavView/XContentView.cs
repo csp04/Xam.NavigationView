@@ -5,10 +5,7 @@ namespace X.NavView
 {
     public class XContentView : ContentView, IXViewController
     {
-        public XContentView()
-        {
-            BackgroundColor = Color.White;
-        }
+        public XContentView() => BackgroundColor = Color.White;
 
         public INavigator Navigator { get; } = new NavigatorImpl();
         protected virtual void OnAppearing() { }
