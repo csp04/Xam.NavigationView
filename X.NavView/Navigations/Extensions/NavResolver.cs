@@ -12,6 +12,7 @@ namespace Xam.NavigationView.Navigations.Extensions
         }
 
         object INavResolver.Resolve(Type viewType) => Activator.CreateInstance(viewType);
+
         object INavResolver.Resolve(Type viewType, object parameter) => Activator.CreateInstance(viewType, parameter);
 
         public static INavResolver Instance
@@ -29,5 +30,4 @@ namespace Xam.NavigationView.Navigations.Extensions
 
         public static void SetResolver(INavResolver navResolver) => _resolver = navResolver;
     }
-
 }

@@ -9,9 +9,11 @@ namespace X.NavView.Navigations
     public interface INavigator
     {
         Task Push(ContentView view, bool animated);
+
         Task Push(ContentView view) => Push(view, true);
 
         Task Pop(bool animated);
+
         Task Pop() => Pop(true);
 
         IReadOnlyList<ContentView> NavigationStack { get; }
@@ -32,7 +34,6 @@ namespace X.NavView.Navigations
 
         public NavigatorImpl()
         {
-
         }
 
         public IReadOnlyList<ContentView> NavigationStack => navigationStack;
@@ -79,7 +80,6 @@ namespace X.NavView.Navigations
             }
         }
 
-
         public Task Pop(bool animated)
         {
             if (CanPop(out var view))
@@ -89,7 +89,9 @@ namespace X.NavView.Navigations
 
             return Task.CompletedTask;
         }
+
         public Task Push(ContentView view, bool animated) => SwitchView(view, true, animated);
+
         private async Task SwitchView(ContentView view, bool isPush, bool animated)
         {
             var tasks = new List<Task>();
@@ -284,8 +286,5 @@ namespace X.NavView.Navigations
                 await transition.Run();
             }
         }
-
     }
-
-
 }

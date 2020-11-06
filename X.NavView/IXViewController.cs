@@ -3,6 +3,7 @@
     public interface IXViewController
     {
         void SendAppearing();
+
         void SendDisappearing();
     }
 }

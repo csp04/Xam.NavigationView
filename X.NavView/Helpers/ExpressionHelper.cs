@@ -17,7 +17,5 @@ namespace X.NavView.Helpers
         public static string GetPropertyName(this MemberExpression expression) => expression.Member.Name;
 
         public static string GetPropertyName(this LambdaExpression expression) => expression.GetMemberExp().GetPropertyName();
-
     }
 }
-

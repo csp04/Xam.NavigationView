@@ -9,6 +9,7 @@ namespace X.NavView.Transitions
         public bool Sequential { get; set; } = false;
 
         public void Cancel() => ForEach(t => t.Cancel());
+
         public async Task Run()
         {
             if (Sequential)

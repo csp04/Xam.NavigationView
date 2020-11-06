@@ -5,11 +5,10 @@ namespace X.NavView.Transitions
 {
     public class HSlide : Transition
     {
-        readonly Page page = Application.Current.MainPage;
+        private readonly Page page = Application.Current.MainPage;
 
         public HSlide() : base("_HSlide", VisualElement.TranslationXProperty)
         {
-
         }
 
         protected override double GetPropertyValue(double propertyValue) => propertyValue / page.Width;
@@ -21,5 +20,4 @@ namespace X.NavView.Transitions
             return View.AnimatePercent(animationName, propertyName, from, to, value, duration, easing);
         }
     }
-
 }

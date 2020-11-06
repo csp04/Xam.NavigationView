@@ -5,11 +5,10 @@ namespace X.NavView.Transitions
 {
     public class VSlide : Transition
     {
-        readonly Page page = Application.Current.MainPage;
+        private readonly Page page = Application.Current.MainPage;
 
         public VSlide() : base("_VSlide", VisualElement.TranslationYProperty)
         {
-
         }
 
         protected override double GetPropertyValue(double propertyValue) => propertyValue / page.Height;

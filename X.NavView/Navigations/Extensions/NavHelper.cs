@@ -28,5 +28,4 @@ namespace Xam.NavigationView.Navigations.Extensions
             }
         }
     }
-
 }

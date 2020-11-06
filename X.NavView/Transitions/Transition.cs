@@ -5,7 +5,6 @@ using Xamarin.Forms;
 
 namespace X.NavView.Transitions
 {
-
     public class Transition<TVisualElement> : ITransition where TVisualElement : VisualElement
     {
         internal TVisualElement View { get; set; }
@@ -21,7 +20,6 @@ namespace X.NavView.Transitions
 
         public EasingMode Easing { get; set; } = EasingMode.Linear;
 
-
         public Transition() => animationName = Guid.NewGuid().ToString();
 
         public Transition(string name, BindableProperty targetProperty)
@@ -30,9 +28,12 @@ namespace X.NavView.Transitions
             TargetProperty = targetProperty;
         }
 
-        public Transition(BindableProperty targetProperty) : this(Guid.NewGuid().ToString(), targetProperty) { }
+        public Transition(BindableProperty targetProperty) : this(Guid.NewGuid().ToString(), targetProperty)
+        {
+        }
 
         public void Cancel() => View.AbortAnimation(animationName);
+
         public Task Run()
         {
             if (View != null)

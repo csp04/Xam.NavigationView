@@ -6,7 +6,6 @@ namespace X.NavView.Transitions
     {
         public Scale() : base("_Scale", VisualElement.ScaleProperty)
         {
-
         }
     }
 }

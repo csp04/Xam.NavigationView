@@ -77,10 +77,8 @@ namespace X.NavView
             Easing easing = null
             ) where TVisualElement : VisualElement
         {
-
             var from = value * fromPercentage;
             var to = value * toPercentage;
-
 
             return Animate(element, name, apply, from, to, duration, easing);
         }
@@ -95,7 +93,6 @@ namespace X.NavView
             Easing easing = null
             ) where TVisualElement : VisualElement
         {
-
             var from = value * fromPercentage;
             var to = value * toPercentage;
 
@@ -112,7 +109,6 @@ namespace X.NavView
             Easing easing = null
             ) where TVisualElement : VisualElement
         {
-
             var from = value * fromPercentage;
             var to = value * toPercentage;
 
@@ -127,9 +123,7 @@ namespace X.NavView
             Easing easing = null
             ) where TVisualElement : VisualElement
         {
-
             var to = value * toPercentage;
-
 
             return AnimateTo(element, name, propertyName, to, duration, easing);
         }
@@ -142,13 +136,9 @@ namespace X.NavView
             Easing easing = null
             ) where TVisualElement : VisualElement
         {
-
             var to = value * toPercentage;
-
 
             return AnimateTo(element, name, propertyExpression, to, duration, easing);
         }
     }
-
-
 }

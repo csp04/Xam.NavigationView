@@ -8,9 +8,17 @@ namespace X.NavView
         public XContentView() => BackgroundColor = Color.White;
 
         public INavigator Navigator { get; } = new NavigatorImpl();
-        protected virtual void OnAppearing() { }
-        protected virtual void OnDisappearing() { }
+
+        protected virtual void OnAppearing()
+        {
+        }
+
+        protected virtual void OnDisappearing()
+        {
+        }
+
         void IXViewController.SendAppearing() => OnAppearing();
+
         void IXViewController.SendDisappearing() => OnDisappearing();
     }
 }

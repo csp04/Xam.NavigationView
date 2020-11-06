@@ -5,6 +5,7 @@ namespace X.NavView.Transitions
     public static class Interaction
     {
         #region Enter Dependency Property
+
         public static void SetEnter(this BindableObject obj, ITransition value) => obj.SetValue(EnterProperty, value);
 
         public static ITransition GetEnter(this BindableObject obj) => (ITransition)obj.GetValue(EnterProperty);
@@ -16,6 +17,7 @@ namespace X.NavView.Transitions
         #endregion Enter Dependency Property
 
         #region Exit Dependency Property
+
         public static void SetExit(this BindableObject obj, ITransition value) => obj.SetValue(ExitProperty, value);
 
         public static ITransition GetExit(this BindableObject obj) => (ITransition)obj.GetValue(ExitProperty);
@@ -23,9 +25,11 @@ namespace X.NavView.Transitions
         public static readonly BindableProperty ExitProperty =
             BindableProperty.Create("Exit", typeof(ITransition),
                 typeof(Interaction), default(ITransition), propertyChanged: OnTransitionSet);
-        #endregion
+
+        #endregion Exit Dependency Property
 
         #region Hide Dependency Property
+
         public static void SetHide(this BindableObject obj, ITransition value) => obj.SetValue(HideProperty, value);
 
         public static ITransition GetHide(this BindableObject obj) => (ITransition)obj.GetValue(HideProperty);
@@ -33,9 +37,11 @@ namespace X.NavView.Transitions
         public static readonly BindableProperty HideProperty =
             BindableProperty.Create("Hide", typeof(ITransition),
                 typeof(Interaction), default(ITransition), propertyChanged: OnTransitionSet);
-        #endregion
+
+        #endregion Hide Dependency Property
 
         #region Reveal Dependency Property
+
         public static void SetReveal(this BindableObject obj, ITransition value) => obj.SetValue(RevealProperty, value);
 
         public static ITransition GetReveal(this BindableObject obj) => (ITransition)obj.GetValue(RevealProperty);
@@ -43,8 +49,8 @@ namespace X.NavView.Transitions
         public static readonly BindableProperty RevealProperty =
             BindableProperty.Create("Reveal", typeof(ITransition),
                 typeof(Interaction), default(ITransition), propertyChanged: OnTransitionSet);
-        #endregion
 
+        #endregion Reveal Dependency Property
 
         private static void OnTransitionSet(BindableObject bindable, object oldValue, object newValue)
         {
