@@ -6,11 +6,19 @@
                     xmlns:navx="clr-namespace:Xam.NavigationView.Navigations.Extensions;assembly=X.NavView"
                     xmlns:view="clr-namespace:SampleApp2.Views"
                     xmlns:sh="http://sharpnado.com"
-             x:Class="SampleApp2.Views.MainView">
+             x:Class="SampleApp2.Views.MainView"
+                    BackgroundColor="#2f2493"
+                    >
 
     <trans:Interaction.Enter>
         <trans:Opacity Duration="1000" />
     </trans:Interaction.Enter>
+    <trans:Interaction.Hide>
+        <trans:Opacity To="0" />
+    </trans:Interaction.Hide>
+    <trans:Interaction.Reveal>
+        <trans:Opacity To="1" />
+    </trans:Interaction.Reveal>
 
     <ContentView.Content>
         <StackLayout>

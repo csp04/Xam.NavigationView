@@ -8,6 +8,8 @@ namespace SampleApp2
 {
     public partial class App : Application
     {
+
+        private static Lazy<HostView> HostView = new Lazy<HostView>(() => new HostView(new MainView()));
        
         public App()
         {
@@ -15,7 +17,7 @@ namespace SampleApp2
 
             if(MainPage == null)
             {
-                MainPage = new HostView(new MainView());
+                MainPage = HostView.Value;
 
                 Sharpnado.Shades.Initializer.Initialize(loggerEnable: false);
             }

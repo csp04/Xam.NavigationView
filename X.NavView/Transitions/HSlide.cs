@@ -12,6 +12,8 @@ namespace X.NavView.Transitions
 
         }
 
+        protected override double GetPropertyValue(double propertyValue) => propertyValue / page.Width;
+
         protected override Task RunAnimation(string animationName, string propertyName, double from, double to, uint duration, Easing easing)
         {
             var value = page.Width;

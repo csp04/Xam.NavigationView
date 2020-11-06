@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using X.NavView.Helpers;
@@ -18,8 +19,8 @@ namespace X.NavView
         {
             TaskCompletionSource<bool> tcs = new TaskCompletionSource<bool>();
 
-            element.Animate(name, d => apply(d, element), from, to, 
-                length: duration, easing: easing, finished: (d, f) => tcs.SetResult(!f));
+            var animation = new Animation(d => apply(d, element), from, to, easing);
+            animation.Commit(element, name, length: duration, finished: (d, f) => tcs.SetResult(!f));
             
             return tcs.Task;
         }

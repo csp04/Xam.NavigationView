@@ -1,6 +1,5 @@
 ﻿using Microsoft.Win32.SafeHandles;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -42,10 +41,7 @@ namespace X.NavView.Transitions
 
         public void Cancel()
         {
-            if(View is IAnimatable view)
-            {
-                view.AbortAnimation(animationName);
-            }
+            View.AbortAnimation(animationName);
         }
         public Task Run()
         {
@@ -56,7 +52,7 @@ namespace X.NavView.Transitions
                 var type = typeof(TVisualElement);
                 var propertyInfo = type.GetProperty(propertyName);
 
-                var from = From ?? (double)propertyInfo.GetValue(View);
+                var from = From ?? GetPropertyValue((double)propertyInfo.GetValue(View));
                 var to = To ?? 1.0;
                 var duration = (uint)Duration;
                 var easing = SwitchEasing(Easing);
@@ -65,6 +61,11 @@ namespace X.NavView.Transitions
             }
 
             return Task.CompletedTask;
+        }
+
+        protected virtual double GetPropertyValue(double propertyValue)
+        {
+            return propertyValue;
         }
 
         protected virtual Task RunAnimation(string animationName, string propertyName, double from, double to, uint duration, Easing easing)
@@ -101,66 +102,6 @@ namespace X.NavView.Transitions
 
         public Transition(string name, BindableProperty targetProperty) : base(name, targetProperty)
         {
-        }
-    }
-
-    public class Transitions : List<ITransition>, ITransition
-    {
-        internal VisualElement View { get; set; }
-
-        public bool Sequential { get; set; } = false;
-
-        public void Cancel() => this.ForEach(t => t.Cancel());
-        public async Task Run()
-        {
-            if(Sequential)
-            {
-                foreach(var t in this)
-                {
-                    await t.Run();
-                }
-            }
-            else
-            {
-                var tasks = new List<Task>();
-
-                foreach(var t in this)
-                {
-                    tasks.Add(t.Run());
-                }
-
-                await Task.WhenAll(tasks);
-            }
-        }
-
-        internal void SetView(VisualElement element)
-        {
-            foreach(var item in this)
-            {
-                if(item is Transition t)
-                {
-                    t.View = element;
-                }
-                else if(item is Transitions ts)
-                {
-                    ts.SetView(element);
-                }
-            }
-        }
-
-        internal void UnsetView()
-        {
-            foreach (var item in this)
-            {
-                if (item is Transition t)
-                {
-                    t.View = null;
-                }
-                else if (item is Transitions ts)
-                {
-                    ts.UnsetView();
-                }
-            }
         }
     }
 }

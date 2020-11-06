@@ -10,10 +10,7 @@
         <trans:HSlide From="1" To="0" Duration="500" Easing="SinOut" />
     </trans:Interaction.Enter>
     <trans:Interaction.Exit>
-        <trans:Transitions>
-            <trans:Opacity To="0" />
-            <trans:HSlide  To="-1" Duration="500" Easing="CubicOut" />
-        </trans:Transitions>
+        <trans:HSlide  To="-1" Duration="500" Easing="CubicOut" />
     </trans:Interaction.Exit>
     
   <ContentView.Content>
