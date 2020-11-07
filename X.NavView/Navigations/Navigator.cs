@@ -21,10 +21,6 @@ namespace X.NavView.Navigations
 
     internal class NavigatorImpl : INavigator
     {
-        private static readonly Dictionary<View, ITransition> enterTransitions = new Dictionary<View, ITransition>();
-        private static readonly Dictionary<View, ITransition> exitTransitions = new Dictionary<View, ITransition>();
-        private static readonly Dictionary<View, ITransition> revealTransitions = new Dictionary<View, ITransition>();
-        private static readonly Dictionary<View, ITransition> hideTransitions = new Dictionary<View, ITransition>();
 
         private static readonly List<ContentView> navigationStack = new List<ContentView>();
 
@@ -181,16 +177,8 @@ namespace X.NavView.Navigations
         {
             if (view != null)
             {
-                if (enterTransitions.TryGetValue(view, out var et))
-                {
-                    et.Cancel();
-
-                    enterTransitions.Remove(view);
-                }
 
                 var t = Interaction.GetExit(view);
-
-                exitTransitions[view] = t;
 
                 await RunTransition(t, animated);
             }
@@ -200,16 +188,7 @@ namespace X.NavView.Navigations
         {
             if (view != null)
             {
-                if (hideTransitions.TryGetValue(view, out var et))
-                {
-                    et.Cancel();
-
-                    hideTransitions.Remove(view);
-                }
-
                 var t = Interaction.GetReveal(view);
-
-                revealTransitions[view] = t;
 
                 await RunTransition(t, animated);
             }
@@ -219,16 +198,7 @@ namespace X.NavView.Navigations
         {
             if (view != null)
             {
-                if (revealTransitions.TryGetValue(view, out var et))
-                {
-                    et.Cancel();
-
-                    revealTransitions.Remove(view);
-                }
-
                 var t = Interaction.GetHide(view);
-
-                hideTransitions[view] = t;
 
                 await RunTransition(t, animated);
             }
@@ -238,16 +208,7 @@ namespace X.NavView.Navigations
         {
             if (view != null)
             {
-                if (exitTransitions.TryGetValue(view, out var et))
-                {
-                    et.Cancel();
-
-                    exitTransitions.Remove(view);
-                }
-
                 var t = Interaction.GetEnter(view);
-
-                enterTransitions[view] = t;
 
                 await RunTransition(t, animated);
             }
